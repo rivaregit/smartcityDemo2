@@ -1,0 +1,12 @@
+
+$2b$10$FAy/tL7Fj6lvf7uoZpm4ge6gIn33JjyFaUNctD3chS4AXdmfjKK2.
+
+"username":"johndoe",
+    "password":"john"
+
+
+    "username":"rivare@gmail.com",
+    "password": "admin"
+
+    "username":"Tom@gmail.com",
+    "password": "admin"

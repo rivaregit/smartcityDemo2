@@ -1,8 +1,14 @@
 import express, {Application} from 'express';
-import db from '../db/connection';
 import routesUser from '../routes/user';
-import routes from '../routes/user';
+import routesVentas from '../routes/ventas';
+import routesMarkersUsers from '../routes/markersxusers';
 
+
+import cors from 'cors';
+import { User } from './user.model';
+import { Venta } from './ventas.model';
+import { MarkersxUser } from './markerxuser.model';
+import { Marker } from './marker.model';
 
  
  
@@ -15,37 +21,48 @@ import routes from '../routes/user';
     constructor() {
         this.app=express();
         //  this.port='3000';
-        this.port=process.env.PORT || '4001';
+        this.port=process.env.PORT || '3001';
 
         this.listen();
         this.midlewares();
+        this.routes();
         this.dbConnect(); 
 
-        this.routes();
+
         console.log(process.env.PORT);
 
     }
 
     listen() {
         this.app.listen(this.port, ()=>{
-            console.log('Aplicacion kcorriendo en pto345 '+ this.port);
+            console.log('Aplicacion corriendo en pto345  '+ this.port);
         })
     }
+    // listen() {
+    //     this.app.listen();  
+    //     }  
+
 
     routes(){
-        this.app.use('/api/users', routesUser);
+
+        this.app.use('/api/', routesUser);
+        this.app.use('/api/', routesVentas);
+        this.app.use('/api/', routesMarkersUsers);
+
     }
 
 midlewares(){
     this.app.use(express.json());
+    this.app.use(cors());
 }
-
-
 
     async dbConnect(){
 
         try{
-        await db.authenticate();
+        await User.sync();
+        await Venta.sync();
+        await Marker.sync();
+        await MarkersxUser.sync();
         console.log('db connected'); 
         }
         catch{

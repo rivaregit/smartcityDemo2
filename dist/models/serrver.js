@@ -13,34 +13,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const connection_1 = __importDefault(require("../db/connection"));
 const user_1 = __importDefault(require("../routes/user"));
+const ventas_1 = __importDefault(require("../routes/ventas"));
+const markersxusers_1 = __importDefault(require("../routes/markersxusers"));
+const cors_1 = __importDefault(require("cors"));
+const user_model_1 = require("./user.model");
+const ventas_model_1 = require("./ventas.model");
+const markerxuser_model_1 = require("./markerxuser.model");
+const marker_model_1 = require("./marker.model");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         //  this.port='3000';
-        this.port = process.env.PORT || '4001';
+        this.port = process.env.PORT || '3001';
         this.listen();
         this.midlewares();
-        this.dbConnect();
         this.routes();
+        this.dbConnect();
         console.log(process.env.PORT);
     }
     listen() {
         this.app.listen(this.port, () => {
-            console.log('Aplicacion kcorriendo en pto345 ' + this.port);
+            console.log('Aplicacion corriendo en pto345  ' + this.port);
         });
     }
+    // listen() {
+    //     this.app.listen();  
+    //     }  
     routes() {
-        this.app.use('/api/users', user_1.default);
+        this.app.use('/api/', user_1.default);
+        this.app.use('/api/', ventas_1.default);
+        this.app.use('/api/', markersxusers_1.default);
     }
     midlewares() {
         this.app.use(express_1.default.json());
+        this.app.use((0, cors_1.default)());
     }
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield connection_1.default.authenticate();
+                yield user_model_1.User.sync();
+                yield ventas_model_1.Venta.sync();
+                yield marker_model_1.Marker.sync();
+                yield markerxuser_model_1.MarkersxUser.sync();
                 console.log('db connected');
             }
             catch (_a) {

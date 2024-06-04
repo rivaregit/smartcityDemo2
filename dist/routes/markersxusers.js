@@ -1,0 +1,15 @@
+"use strict";
+// import{Router} from 'express';
+// import { getUsersWithMarkers } from '../controllers/markersxuserController';
+Object.defineProperty(exports, "__esModule", { value: true });
+// const router= Router();
+// router.get('/markersxusers', getUsersWithMarkers);
+// export default router;
+const express_1 = require("express");
+const markersxuserController_1 = require("../controllers/markersxuserController");
+//import { getUsers2 } from '../controllers/markersxuserController';
+const router = (0, express_1.Router)();
+router.get('/markerusers', markersxuserController_1.getUsersWithMarkers);
+router.post('/markerusers', markersxuserController_1.getMarkersByUserId);
+//router.get('/users2', getUsers2);
+exports.default = router;
